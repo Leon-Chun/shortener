@@ -27,6 +27,24 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
+//shorten url and render success page
+app.post('/shortener/create',(req,res) => {
+  const originUrl = req.body.originurl
+  console.log(checkURL(originUrl))
+  
+})
+
+//判斷url是否合法
+function checkURL(URL) {
+  const Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/
+  const objExp = new RegExp(Expression)
+  if (objExp.test(URL) == true) {
+    return true
+  }else{
+    return false
+  }
+}
+
 app.listen(PORT, () => {
   console.log(`Express is listening on localhost:${PORT}`)
 })
