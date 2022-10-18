@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
-//shorten url and render success page
+//shorten success page
 app.post('/leon_shortener/create',(req,res) => {
   const originUrl = req.body.originurl
   const shortUrl  = generatorText()
@@ -41,9 +41,10 @@ app.post('/leon_shortener/create',(req,res) => {
 //恢復短網址
 app.get('/leon_shortener/:shorturl',(req,res) => {
   const shorturl = req.params.shorturl
-  return Shortener.findOne({shorturl:shorturl})
+  console.log(shorturl)
+  Shortener.findOne({shortUrl:shorturl})
     .lean()
-    .then( data => res.redirect(`${data.url}`))
+    .then(data => res.redirect(data.url))
 })
 
 //判斷url是否合法
