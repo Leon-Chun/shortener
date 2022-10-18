@@ -33,18 +33,30 @@ app.post('/leon_shortener/create',(req,res) => {
   const originUrl = req.body.originurl
   const shortUrl  = generatorText()
   
-  return Shortener.create({url:originUrl,shortUrl:shortUrl})
-    .then(() => res.render('shorten',{shortUrl}))
-    .catch(error => console.log(error))
+  Shortener.find({originurl:originUrl})
+    .lean()
+    .then(data => {
+      //搜尋資料庫，是否縮網址已存在，有則給予資料庫內已存在的縮網址。
+      if(data.length){
+        return Shortener.findOne({ url: originUrl })
+          .then(data => res.render('shorten',{shortUrl:data.shorturl}))
+          .catch(error => console.log(error))
+      }else{
+        // 建立新 shor url
+        return Shortener.create({ originurl:originUrl,shorturl:shortUrl})
+        .then(() => res.render('shorten',{shortUrl}))
+        .catch(error => console.log(error))
+      }
+    })
+  
 })
 
 //恢復短網址
 app.get('/leon_shortener/:shorturl',(req,res) => {
   const shorturl = req.params.shorturl
-  console.log(shorturl)
-  Shortener.findOne({shortUrl:shorturl})
+  Shortener.findOne({shorturl:shorturl})
     .lean()
-    .then(data => res.redirect(data.url))
+    .then(data => res.redirect(data.originurl))
 })
 
 //判斷url是否合法
