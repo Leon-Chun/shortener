@@ -31,10 +31,11 @@ app.get('/', (req, res) => {
 //shorten url and render success page
 app.post('/shortener/create',(req,res) => {
   const originUrl = req.body.originurl
-  const shortUrl =  generatorText()
+  const shortUrl  = generatorText()
   
-  // return Shortener.create({url:originUrl},{shortUrl:})
-  
+  return Shortener.create({url:originUrl,shortUrl:shortUrl})
+    .then(() => res.render('shorten'))
+    .catch(error => console.log(error))
 })
 
 //判斷url是否合法
