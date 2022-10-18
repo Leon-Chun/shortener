@@ -1,6 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
+const Shortener = require('./models/shortener')
 const PORT = 3000
 
 const app = express()
@@ -30,7 +31,9 @@ app.get('/', (req, res) => {
 //shorten url and render success page
 app.post('/shortener/create',(req,res) => {
   const originUrl = req.body.originurl
-  console.log(checkURL(originUrl))
+  const shortUrl =  generatorText()
+  
+  // return Shortener.create({url:originUrl},{shortUrl:})
   
 })
 
@@ -44,6 +47,23 @@ function checkURL(URL) {
     return false
   }
 }
+
+//隨機5碼英文數字混合產生器
+function generatorText(){
+  let collection = []
+  let letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  let lowerLetter = letter.toLocaleLowerCase()
+  let number = '1234567890'
+  collection = (letter+lowerLetter+number).split('')
+  
+  let randomCombin = ''
+  for(let i=0 ; i<5 ; i++){
+    randomCombin += collection[Math.floor(Math.random() * collection.length)]
+  }
+
+  return randomCombin 
+}
+
 
 app.listen(PORT, () => {
   console.log(`Express is listening on localhost:${PORT}`)

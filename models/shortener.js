@@ -6,4 +6,4 @@ const shortenerSchema = new Schema({
   shortUrl: { type: String, required: true }
 	})
 
-module.exports = mongoose.model('shortener', shortenerSchema)
+module.exports = mongoose.model('Shortener', shortenerSchema)
