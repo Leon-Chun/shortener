@@ -29,13 +29,21 @@ app.get('/', (req, res) => {
 })
 
 //shorten url and render success page
-app.post('/shortener/create',(req,res) => {
+app.post('/leon_shortener/create',(req,res) => {
   const originUrl = req.body.originurl
   const shortUrl  = generatorText()
   
   return Shortener.create({url:originUrl,shortUrl:shortUrl})
-    .then(() => res.render('shorten'))
+    .then(() => res.render('shorten',{shortUrl}))
     .catch(error => console.log(error))
+})
+
+//恢復短網址
+app.get('/leon_shortener/:shorturl',(req,res) => {
+  const shorturl = req.params.shorturl
+  return Shortener.findOne({shorturl:shorturl})
+    .lean()
+    .then( data => res.redirect(`${data.url}`))
 })
 
 //判斷url是否合法
