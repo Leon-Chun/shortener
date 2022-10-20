@@ -1,4 +1,20 @@
-<form action="/leon_shortener/create" method="POST" class="d-flex flex-column align-items-center gap-3">
+<form action="/leon_shortener/create" method="POST" id="inputForm" class="d-flex flex-column align-items-center gap-3" novalidate>
   <input class="col-12" type="text" placeholder="輸入網址..." name="originurl" required>
-  <button id="sumitBtn" type="submit">Shorten</button>
+  <div class="invalid-feedback">請輸入網址</div>
+  <button id="submitBtn" type="submit">Shorten</button>
 </form>
+
+{{!-- 未輸入內容時跳窗 --}}
+<script>
+  const submitButton = document.querySelector('#submitBtn')
+  const inputForm = document.querySelector('#inputForm')
+  submitButton.addEventListener('click',function click(event){
+    inputForm.classList.add('was-validated')
+  })
+  inputForm.addEventListener('submit',function onFormSubmit(event){
+    if(!inputForm.checkValidity()){
+      event.preventDefault()
+      event.stopPropagation()
+    }
+  })
+</script>
