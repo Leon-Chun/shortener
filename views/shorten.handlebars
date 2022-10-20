@@ -1,2 +1,18 @@
 <h1>Success! Please use this link:</h1>
-<p class="sorturl" id="sorturl">localhost:3000/leon_shortener/{{shortUrl}}</p>
+<p id="shorturl" style="color:blue;">localhost:3000/leon_shortener/{{shortUrl}}</p>
+<button class="btn btn-primary" style="width:10rem;margin:1rem" onclick="copyShortURL()">複製縮網址</button>
+ 
+
+ {{!-- copy function --}}
+ <script>
+    function copyShortURL(){
+      let shorturl = document.getElementById('shorturl')
+      let selection = window.getSelection()
+      let range = document.createRange()
+      range.selectNodeContents(shorturl)
+      selection.removeAllRanges()
+      selection.addRange(range)
+      document.execCommand('copy')
+      alert('縮網址已複製')
+    }
+ </script>

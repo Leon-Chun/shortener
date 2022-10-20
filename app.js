@@ -38,14 +38,14 @@ app.post('/leon_shortener/create',(req,res) => {
     .then(data => {
       //搜尋資料庫，是否縮網址已存在，有則給予資料庫內已存在的縮網址。
       if(data.length){
-        return Shortener.findOne({ url: originUrl })
+        Shortener.findOne({ originurl: originUrl })
           .then(data => res.render('shorten',{shortUrl:data.shorturl}))
           .catch(error => console.log(error))
       }else{
         // 建立新 shor url
-        return Shortener.create({ originurl:originUrl,shorturl:shortUrl})
-        .then(() => res.render('shorten',{shortUrl}))
-        .catch(error => console.log(error))
+        Shortener.create({ originurl:originUrl,shorturl:shortUrl})
+          .then(() => res.render('shorten',{shortUrl}))
+          .catch(error => console.log(error))
       }
     })
   
@@ -82,7 +82,6 @@ function generatorText(){
   for(let i=0 ; i<5 ; i++){
     randomCombin += collection[Math.floor(Math.random() * collection.length)]
   }
-
   return randomCombin 
 }
 
