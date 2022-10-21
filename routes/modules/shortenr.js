@@ -34,6 +34,7 @@ router.get('/:shorturl', (req, res) => {
   Shortener.findOne({ shorturl: shorturl })
     .lean()
     .then(data => res.redirect(data.originurl))
+    .catch(error => console.log(error))
 })
 
 module.exports = router
