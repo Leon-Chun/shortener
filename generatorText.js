@@ -1,3 +1,4 @@
+//隨機5碼產生器
 function generatorText() {
   let collection = []
   let letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
